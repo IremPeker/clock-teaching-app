@@ -1,15 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Clock from "react-clock";
+import { formatTime } from "./utils/timeUtils";
 import "react-clock/dist/Clock.css";
 import "./App.css";
-
-// Helper function to format time as HH:MM
-const formatTime = (hour: number, minute: number) => {
-  const h = hour < 10 ? `0${hour}` : hour;
-  const m = minute < 10 ? `0${minute}` : minute;
-
-  return `${h}:${m}`;
-};
 
 const App: React.FC = () => {
   // State for random time and user inputs
@@ -21,7 +14,7 @@ const App: React.FC = () => {
   const [clockTime, setClockTime] = useState<Date>(new Date());
 
   // Function to generate random time
-  const generateRandomTime = () => {
+  const generateRandomTime = (): void => {
     const randomHour: number = Math.floor(Math.random() * 12); // 0 to 11
     let randomMinute: number;
     // activate this code when kids start reading all the minutes
@@ -44,22 +37,22 @@ const App: React.FC = () => {
   };
 
   // Check user inputs for morning and evening
-  const checkTime = () => {
-    const correctMorningTime = formatTime(hour, minute);
-    const correctEveningTime = formatTime(hour + 12, minute);
-    let result = "";
+  const checkTime = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    const correctMorningTime: string = formatTime(hour, minute);
+    const correctEveningTime: string = formatTime(hour + 12, minute);
+    let result: string = "";
 
     if (
       morningInput.trim() === correctMorningTime &&
       eveningInput.trim() === correctEveningTime
     ) {
-      result = "Beide Antworten sind richtig! Toll! ✅✅";
+      result = "Beide Antworten sind richtig! Toll! ✅ ✅";
     } else if (morningInput.trim() === correctMorningTime) {
-      result = "Die erste Antwort ist richtig! Die zweite ist falsch. ✅❌";
+      result = "Die erste Antwort ist richtig! Die zweite ist falsch. ✅ ❌";
     } else if (eveningInput.trim() === correctEveningTime) {
-      result = "Die erste Antwort ist falsch! Die zweite ist richtig. ❌✅";
+      result = "Die erste Antwort ist falsch! Die zweite ist richtig. ❌ ✅";
     } else {
-      result = `Beide Antworten sind falsch. Die richtige Antworten sind ${correctMorningTime} und ${correctEveningTime}. ❌❌`;
+      result = `Beide Antworten sind falsch. Die richtige Antworten sind ${correctMorningTime} und ${correctEveningTime}. ❌ ❌`;
     }
     setFeedback(result);
   };
@@ -98,6 +91,9 @@ const App: React.FC = () => {
             );
           })}
         </div>
+      </div>
+      <div>
+        <h3>Wie spät ist es?</h3>
       </div>
       <div className="input-container">
         <div>
