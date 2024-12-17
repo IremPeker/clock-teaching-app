@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/clock-teaching-app/static/css/main.261f0017.css",
+    "main.js": "/clock-teaching-app/static/js/main.983655a9.js",
+    "index.html": "/clock-teaching-app/index.html",
+    "main.261f0017.css.map": "/clock-teaching-app/static/css/main.261f0017.css.map",
+    "main.983655a9.js.map": "/clock-teaching-app/static/js/main.983655a9.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.261f0017.css",
+    "static/js/main.983655a9.js"
+  ]
+}
