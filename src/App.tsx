@@ -72,7 +72,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <h1>Uhrzeit üben!</h1>
-      <div className="clock-container">
+      <div data-testid="analog-clock" className="clock-container">
         {/* Analog Clock */}
         <Clock value={clockTime} renderSecondHand={false} />
         {/* Numbers Overlay */}
@@ -105,6 +105,7 @@ const App: React.FC = () => {
             Zeit eingeben (12 Stunden Format) (SS:MM):
           </label>
           <input
+            data-testid="morning-input"
             id="morning-input"
             type="text"
             placeholder="z.B., 09:15"
@@ -117,6 +118,7 @@ const App: React.FC = () => {
             Zeit eingeben (24 Stunden Format) (SS:MM):
           </label>
           <input
+            data-testid="evening-input"
             id="evening-input"
             type="text"
             placeholder="z.B., 21:15"
@@ -126,10 +128,16 @@ const App: React.FC = () => {
         </div>
       </div>
       <div className="button-container">
-        <button className="yellow-button" onClick={checkTime}>
+        <button
+          data-testid="check-button"
+          className="yellow-button"
+          onClick={checkTime}>
           Überprüfen
         </button>
-        <button className="blue-button" onClick={generateRandomTime}>
+        <button
+          data-testid="new-time-button"
+          className="blue-button"
+          onClick={generateRandomTime}>
           Neue Uhrzeit
         </button>
       </div>
