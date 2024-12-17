@@ -23,23 +23,51 @@
   color: #333;
 }
 
-input {
-  margin: 10px;
-  padding: 8px;
-  font-size: 1rem;
-  width: 100px;
+.input-container {
+  padding: 20px;
+}
+
+.feedback {
+  padding: 15px;
+  font-size: 1.2rem;
+  color: #007b00;
+  font-weight: bold;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.yellow-button {
+  background-color: #dad42c;
+}
+
+.blue-button {
+  background-color: #bdbddd;
+}
+
+.react-clock__minute-hand__body {
+  background-color: blue;
+}
+
+.react-clock__hour-hand__body {
+  background-color: red;
 }
 
 button {
+  width: 150px;
   margin: 5px;
   padding: 8px 12px;
   font-size: 1rem;
   cursor: pointer;
 }
 
-.feedback {
-  margin-top: 15px;
-  font-size: 1.2rem;
-  color: #007b00;
-  font-weight: bold;
+input {
+  margin: 10px;
+  padding: 8px;
+  font-size: 1rem;
+  width: 100px;
 }

@@ -7,6 +7,7 @@ import "./App.css";
 const formatTime = (hour: number, minute: number) => {
   const h = hour < 10 ? `0${hour}` : hour;
   const m = minute < 10 ? `0${minute}` : minute;
+
   return `${h}:${m}`;
 };
 
@@ -21,8 +22,15 @@ const App: React.FC = () => {
 
   // Function to generate random time
   const generateRandomTime = () => {
-    const randomHour = Math.floor(Math.random() * 12); // 0 to 11
-    const randomMinute = Math.floor(Math.random() * 60); // 0 to 59
+    const randomHour: number = Math.floor(Math.random() * 12); // 0 to 11
+    let randomMinute: number;
+    // activate this code when kids start reading all the minutes
+    // const randomMinute = Math.floor(Math.random() * 60); // 0 to 59
+    // Generate random minute that is divisible by 5
+    do {
+      randomMinute = Math.floor(Math.random() * 60); // 0 to 59
+    } while (randomMinute % 5 !== 0);
+
     setHour(randomHour);
     setMinute(randomMinute);
     setFeedback("");
@@ -37,20 +45,21 @@ const App: React.FC = () => {
 
   // Check user inputs for morning and evening
   const checkTime = () => {
-    const correctTime = formatTime(hour, minute);
+    const correctMorningTime = formatTime(hour, minute);
+    const correctEveningTime = formatTime(hour + 12, minute);
     let result = "";
 
     if (
-      morningInput.trim() === correctTime &&
-      eveningInput.trim() === correctTime
+      morningInput.trim() === correctMorningTime &&
+      eveningInput.trim() === correctEveningTime
     ) {
-      result = "Both answers are correct! Great Job! ✅";
-    } else if (morningInput.trim() === correctTime) {
-      result = "Morning input is correct! Evening is wrong. ✅❌";
-    } else if (eveningInput.trim() === correctTime) {
-      result = "Evening input is correct! Morning is wrong. ✅❌";
+      result = "Beide Antworten sind richtig! Toll! ✅✅";
+    } else if (morningInput.trim() === correctMorningTime) {
+      result = "Die erste Antwort ist richtig! Die zweite ist falsch. ✅❌";
+    } else if (eveningInput.trim() === correctEveningTime) {
+      result = "Die erste Antwort ist falsch! Die zweite ist richtig. ❌✅";
     } else {
-      result = `Both answers are wrong. The correct time was ${correctTime}. ❌`;
+      result = `Beide Antworten sind falsch. Die richtige Antworten sind ${correctMorningTime} und ${correctEveningTime}. ❌❌`;
     }
     setFeedback(result);
   };
@@ -62,10 +71,10 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <h1>Learn to Tell the Time!</h1>
+      <h1>Uhrzeit üben!</h1>
       <div className="clock-container">
         {/* Analog Clock */}
-        <Clock value={clockTime} />
+        <Clock value={clockTime} renderSecondHand={false} />
         {/* Numbers Overlay */}
         <div className="clock-numbers">
           {[...Array(12)].map((_, index) => {
@@ -90,29 +99,39 @@ const App: React.FC = () => {
           })}
         </div>
       </div>
-      <div>
-        <label htmlFor="morning-input">Enter Morning Time (HH:MM):</label>
-        <input
-          id="morning-input"
-          type="text"
-          placeholder="e.g., 09:15"
-          value={morningInput}
-          onChange={(e) => setMorningInput(e.target.value)}
-        />
+      <div className="input-container">
+        <div>
+          <label htmlFor="morning-input">
+            Zeit eingeben (12 Stunden Format) (SS:MM):
+          </label>
+          <input
+            id="morning-input"
+            type="text"
+            placeholder="z.B., 09:15"
+            value={morningInput}
+            onChange={(e) => setMorningInput(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="evening-input">
+            Zeit eingeben (24 Stunden Format) (SS:MM):
+          </label>
+          <input
+            id="evening-input"
+            type="text"
+            placeholder="z.B., 21:15"
+            value={eveningInput}
+            onChange={(e) => setEveningInput(e.target.value)}
+          />
+        </div>
       </div>
-      <div>
-        <label htmlFor="evening-input">Enter Evening Time (HH:MM):</label>
-        <input
-          id="evening-input"
-          type="text"
-          placeholder="e.g., 09:15"
-          value={eveningInput}
-          onChange={(e) => setEveningInput(e.target.value)}
-        />
-      </div>
-      <div>
-        <button onClick={checkTime}>Submit</button>
-        <button onClick={generateRandomTime}>New Time</button>
+      <div className="button-container">
+        <button className="yellow-button" onClick={checkTime}>
+          Überprüfen
+        </button>
+        <button className="blue-button" onClick={generateRandomTime}>
+          Neue Uhrzeit
+        </button>
       </div>
       {feedback && <div className="feedback">{feedback}</div>}
     </div>
