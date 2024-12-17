@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Clock from "react-clock";
+import Confetti from "react-confetti";
 import { formatTime } from "./utils/timeUtils";
 import "react-clock/dist/Clock.css";
 import "./App.css";
@@ -12,9 +13,11 @@ const App: React.FC = () => {
   const [eveningInput, setEveningInput] = useState<string>("");
   const [feedback, setFeedback] = useState<string>("");
   const [clockTime, setClockTime] = useState<Date>(new Date());
+  const [showConfetti, setShowConfetti] = useState<boolean>(false);
 
   // Function to generate random time
   const generateRandomTime = (): void => {
+    setShowConfetti(false);
     const randomHour: number = Math.floor(Math.random() * 12); // 0 to 11
     let randomMinute: number;
     // activate this code when kids start reading all the minutes
@@ -47,12 +50,16 @@ const App: React.FC = () => {
       eveningInput.trim() === correctEveningTime
     ) {
       result = "Beide Antworten sind richtig! Toll! ✅ ✅";
+      setShowConfetti(true);
     } else if (morningInput.trim() === correctMorningTime) {
       result = "Die erste Antwort ist richtig! Die zweite ist falsch. ✅ ❌";
+      setShowConfetti(false);
     } else if (eveningInput.trim() === correctEveningTime) {
       result = "Die erste Antwort ist falsch! Die zweite ist richtig. ❌ ✅";
+      setShowConfetti(false);
     } else {
       result = `Beide Antworten sind falsch. Die richtige Antworten sind ${correctMorningTime} und ${correctEveningTime}. ❌ ❌`;
+      setShowConfetti(false);
     }
     setFeedback(result);
   };
@@ -138,6 +145,13 @@ const App: React.FC = () => {
         </button>
       </div>
       {feedback && <div className="feedback">{feedback}</div>}
+      {showConfetti && (
+        <Confetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          tweenDuration={1000}
+        />
+      )}
     </div>
   );
 };
