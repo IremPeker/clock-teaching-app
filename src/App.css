@@ -23,6 +23,38 @@
   color: #333;
 }
 
+.buttons-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+
+  .mode-button,
+  .check-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 40px;
+    margin: 5px;
+    padding: 8px 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: 1px solid #464ec0;
+    border-radius: 5px;
+    box-shadow: 4px 4px 3px #7e7979;
+    transition: all 0.1s ease-in-out;
+
+    &:active {
+      transform: translateY(2px);
+    }
+  }
+
+  .active-mode {
+    background-color: #464ec0;
+    color: white;
+  }
+}
+
 .input-container {
   padding: 0 20px;
 }
@@ -34,52 +66,12 @@
   font-weight: bold;
 }
 
-.button-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-}
-
-.yellow-button {
-  background-color: #dad42c;
-
-  &:hover {
-    background-color: #c4c42c;
-  }
-}
-
-.blue-button {
-  background-color: #bdbddd;
-
-  &:hover {
-    background-color: #a8a8d5;
-  }
-}
-
 .react-clock__minute-hand__body {
   background-color: blue;
 }
 
 .react-clock__hour-hand__body {
   background-color: red;
-}
-
-button {
-  width: 150px;
-  margin: 5px;
-  padding: 8px 12px;
-  font-size: 1rem;
-  cursor: pointer;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 4px #999;
-  transition: all 0.1s ease-in-out;
-}
-
-button:active {
-  box-shadow: 0 2px #666;
-  transform: translateY(2px);
 }
 
 input {
