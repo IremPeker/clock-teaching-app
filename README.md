@@ -43,7 +43,8 @@ See the section about [npm run eject](https://create-react-app.dev/docs/availabl
 
 After you start the project in localhost, you will see an analog clock. There are 2 input fields. The first field is for 12 hours format, the second is for 24 hours format. Write the inputs and click on Uberprufen. If you want to get a new time, click on Neue Uhrzeit.
 
-Note that the minute will only show the numbers that can be divided by 5. This will change later when kids learn to read all the minutes :)
+Basic mode: write the time in input fields for 12 hours and 24 hours.
+Advanced mode: calculate the new time and write the answer as 12 hours and 24 hours formats.
 
 ## Made by
 
