@@ -25,13 +25,13 @@ const App: React.FC = () => {
     generateRandomTime();
   }, []);
 
-  // Hide confetti after 10 seconds
+  // Hide confetti after 5 seconds
   useEffect(() => {
     if (!showConfetti) return;
 
     const timeout = setTimeout(() => {
       setShowConfetti(false);
-    }, 10000);
+    }, 5000);
 
     return () => clearTimeout(timeout);
   }, [showConfetti]);
@@ -42,9 +42,7 @@ const App: React.FC = () => {
     const randomHour: number = Math.floor(Math.random() * 12); // 0 to 11
     // Generate random minute that is not necessarily divisible by 5
     let randomMinute: number = Math.floor(Math.random() * 60);
-    while (randomMinute === 0) {
-      randomMinute = Math.floor(Math.random() * 60);
-    }
+
     setHour(randomHour);
     setMinute(randomMinute);
     setFeedback("");
@@ -63,11 +61,11 @@ const App: React.FC = () => {
     setMorningInput("");
     setEveningInput("");
 
-    const baseHour = Math.floor(Math.random() * 12);
-    const baseMinute = Math.floor(Math.random() * 60);
+    const baseHour: number = Math.floor(Math.random() * 12);
+    const baseMinute: number = Math.floor(Math.random() * 60);
 
-    const extraHours = Math.floor(Math.random() * 4) + 1; // 1–4 hours
-    const extraMinutes = Math.floor(Math.random() * 45) + 5; // 5–50 minutes
+    const extraHours = Math.floor(Math.random() * 4) + 1; // limit with 1–4 hours
+    const extraMinutes = (Math.floor(Math.random() * 10) + 1) * 5; // limit with 5–50 minutes that are multiples of 5
 
     setHour(baseHour);
     setMinute(baseMinute);
@@ -81,19 +79,33 @@ const App: React.FC = () => {
 
   // Check user inputs for morning and evening
   const checkTime = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    event.preventDefault();
     let finalHour = hour;
     let finalMinute = minute;
     let result: string = "";
 
     if (mode === "advanced") {
+      // Add the extra time
       finalMinute += addMinutes;
-      finalHour += addHours + Math.floor(finalMinute / 60);
-      finalMinute = finalMinute % 60;
+      finalHour += addHours;
+
+      // Handle minute overflow (convert excess minutes to hours)
+      if (finalMinute >= 60) {
+        finalHour += Math.floor(finalMinute / 60);
+        finalMinute = finalMinute % 60;
+      }
+
+      // Wrap hours to 24-hour format
       finalHour = finalHour % 24;
     }
 
-    const correctMorningTime = formatTime(finalHour, finalMinute);
-    const correctEveningTime = formatTime(finalHour + 12, finalMinute);
+    // Ensure morning time is in 12-hour format (0-11)
+    const morningHour = finalHour % 12;
+    const correctMorningTime = formatTime(morningHour, finalMinute);
+
+    // Ensure evening time is in 24-hour format (12-23)
+    const eveningHour = (finalHour % 12) + 12;
+    const correctEveningTime = formatTime(eveningHour, finalMinute);
 
     if (
       morningInput.trim() === correctMorningTime &&
@@ -116,7 +128,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <h1>🕒 Uhrzeit üben</h1>
+      <p className="title">🕒 Uhrzeit üben</p>
       <div className="buttons-wrapper">
         <button
           className={
@@ -142,7 +154,7 @@ const App: React.FC = () => {
       </div>
       <div data-testid="analog-clock" className="clock-container">
         {/* Analog Clock */}
-        <Clock value={clockTime} renderSecondHand={false} />
+        <Clock value={clockTime} renderSecondHand={false} size={200} />
         {/* Numbers Overlay */}
         <div className="clock-numbers">
           {[...Array(12)].map((_, index) => {
@@ -168,12 +180,12 @@ const App: React.FC = () => {
         </div>
       </div>
       <div>
-        {mode === "basic" && <h3>Wie spät ist es?</h3>}
+        {mode === "basic" && <p className="basic-question">Wie spät ist es?</p>}
         {mode === "advanced" && (
-          <h3 className="advanced-question">
+          <p className="advanced-question">
             Addiere <strong>{addHours}</strong> Stunden und{" "}
             <strong>{addMinutes}</strong> Minuten
-          </h3>
+          </p>
         )}
       </div>
       <div className="input-container">
@@ -210,7 +222,9 @@ const App: React.FC = () => {
         <button
           data-testid="new-time-button"
           className="check-button"
-          onClick={generateRandomTime}>
+          onClick={
+            mode === "basic" ? generateRandomTime : generateAdvancedTime
+          }>
           🔄 Neue Uhrzeit
         </button>
       </div>

@@ -3,6 +3,12 @@
   font-family: Arial, sans-serif;
 }
 
+.title {
+  font-size: 2.5rem;
+  margin: 5px 0 10px 0;
+  color: #464ec0;
+}
+
 .clock-container {
   position: relative;
   display: inline-block;
@@ -23,10 +29,17 @@
   color: #333;
 }
 
+.basic-question,
+.advanced-question {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 10px 0;
+}
+
 .buttons-wrapper {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  padding-bottom: 10px;
 
   .mode-button,
   .check-button {
@@ -60,7 +73,7 @@
 }
 
 .feedback {
-  padding: 15px;
+  padding: 0 15px;
   font-size: 1.2rem;
   color: #007b00;
   font-weight: bold;
